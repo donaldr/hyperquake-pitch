@@ -34,23 +34,23 @@
       }
       #enter-password {
         box-sizing: border-box;
-        font-family: 'Bebas Neue', sans-serif;
+        font-family: "Bebas Neue", sans-serif;
         font-size: 1.4rem;
         letter-spacing: 2px;
         color: #fff;
         background: none;
         border: none;
-        border-bottom: 1px solid rgba(255,255,255,0.3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         padding: 9px 13px;
         text-align: center;
         outline: none;
         width: 280px;
       }
       #enter-password::placeholder {
-        color: rgba(255,255,255,0.3);
+        color: rgba(255, 255, 255, 0.3);
       }
       #enter-btn {
-        color: rgba(255,255,255,0.3);
+        color: rgba(255, 255, 255, 0.3);
         background: none;
         border: none;
         padding: 0.3em;
@@ -59,7 +59,7 @@
       }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CMY Pages</title>
+    <title>Hyperquake Pitch</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -70,10 +70,24 @@
   <body>
     <div id="enter-overlay">
       <form id="enter-form">
-        <input id="enter-password" type="password" placeholder="Password" autocomplete="off" />
+        <input
+          id="enter-password"
+          type="password"
+          placeholder="Password"
+          autocomplete="off"
+        />
         <button id="enter-btn" type="submit" aria-label="Enter">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M13 5l7 7-7 7"/>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
         </button>
       </form>
@@ -91,8 +105,17 @@
       </div>
       <div id="scroll-hint" class="scroll-hint">
         <span>Scroll down</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 3v10M3 8l5 5 5-5"/>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M8 3v10M3 8l5 5 5-5" />
         </svg>
       </div>
     </div>
@@ -260,9 +283,9 @@
     <div class="page" id="page-05">
       <div class="highlight-para highlight-para-right">
         We don't just use AI — we build with it. From intelligent content
-        generation to real-time conversational interfaces, we integrate AI
-        as a core creative partner, not an afterthought. The result is
-        experiences that feel alive, adaptive, and deeply personal.
+        generation to real-time conversational interfaces, we integrate AI as a
+        core creative partner, not an afterthought. The result is experiences
+        that feel alive, adaptive, and deeply personal.
       </div>
       <div class="num-stack"></div>
       <div class="heading-mask">
@@ -271,7 +294,11 @@
       <span class="page-label">05</span>
     </div>
 
-    <script>document.fonts.load('1.4rem "Bebas Neue"').then(function(){document.getElementById('enter-form').style.opacity='1';})</script>
+    <script>
+      document.fonts.load('1.4rem "Bebas Neue"').then(function () {
+        document.getElementById("enter-form").style.opacity = "1";
+      });
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
