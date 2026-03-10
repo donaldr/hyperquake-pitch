@@ -736,3 +736,28 @@ html.no-scroll {
   width: 100%;
   height: 100%;
 }
+
+/* ── Mobile gate ── */
+#mobile-gate {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  #mobile-gate {
+    display: flex;
+  }
+  #mobile-gate ~ * {
+    display: none !important;
+  }
+}
