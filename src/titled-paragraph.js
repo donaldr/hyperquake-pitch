@@ -31,45 +31,6 @@ function buildTitle(para) {
   titleEl.appendChild(underline);
 }
 
-function buildBody(para) {
-  const bodyEl = para.querySelector(".tp-body");
-  const text = bodyEl.dataset.originalText || bodyEl.textContent.trim();
-  bodyEl.dataset.originalText = text;
-  bodyEl.textContent = "";
-
-  const words = text.split(/\s+/);
-  const spans = words.map((word, i) => {
-    const span = document.createElement("span");
-    span.style.display = "inline";
-    span.style.whiteSpace = "nowrap";
-    span.textContent = word;
-    bodyEl.appendChild(span);
-    if (i < words.length - 1) bodyEl.appendChild(document.createTextNode(" "));
-    return span;
-  });
-
-  const lines = [];
-  let currentLine = [];
-  let lastTop = null;
-  spans.forEach((span) => {
-    const top = span.offsetTop;
-    if (lastTop !== null && top !== lastTop) {
-      lines.push(currentLine);
-      currentLine = [];
-    }
-    currentLine.push(span);
-    lastTop = top;
-  });
-  if (currentLine.length) lines.push(currentLine);
-
-  bodyEl.textContent = "";
-  lines.forEach((lineSpans) => {
-    const lineEl = document.createElement("span");
-    lineEl.className = "tp-body-line";
-    lineEl.textContent = lineSpans.map((s) => s.textContent).join(" ");
-    bodyEl.appendChild(lineEl);
-  });
-}
 
 function calcCallout(page, circleEl, para, i) {
   const pageRect = page.getBoundingClientRect();
@@ -80,7 +41,8 @@ function calcCallout(page, circleEl, para, i) {
 
   const titleEl = para.querySelector(".tp-title");
   const titleRect = titleEl.getBoundingClientRect();
-  const sx = titleRect.left - pageRect.left - 20;
+  const paraRect = para.getBoundingClientRect();
+  const sx = Math.min(titleRect.left, paraRect.left) - pageRect.left - 20;
   const sy = titleRect.bottom - pageRect.top - 1;
 
   const edgeX = cx + r + 20;
@@ -265,16 +227,27 @@ function animateParaOut(para) {
 }
 
 export function initTitledParagraphs() {
+  // Swap long/short body text based on page height (must run before callouts are built)
+  function swapBodyText() {
+    document.querySelectorAll(".tp-body[data-short]").forEach((body) => {
+      if (!body._longHTML) body._longHTML = body.innerHTML;
+      const page = body.closest(".page");
+      if (!page) return;
+      const useShort = page.getBoundingClientRect().height < 800;
+      body.innerHTML = useShort ? body.dataset.short : body._longHTML;
+    });
+  }
+  swapBodyText();
+
   document.querySelectorAll(".titled-para").forEach((para) => {
     buildTitle(para);
-    buildBody(para);
   });
 
   document.querySelectorAll(".page").forEach((page) => {
     const paras = Array.from(page.querySelectorAll(".titled-para"));
     if (!paras.length) return;
 
-    // Build callouts before applying initial hidden states
+    // Build callouts after text swap so positions are correct
     buildCallouts(page);
 
     paras.forEach((para, pi) => {
@@ -305,9 +278,8 @@ export function initTitledParagraphs() {
 
   const pages = Array.from(document.querySelectorAll(".page"));
   window.addEventListener("resize", () => {
-    // Delay so that any position updates (e.g. radial-para repositioning) settle first
     requestAnimationFrame(() => {
-      document.querySelectorAll(".titled-para").forEach((para) => buildBody(para));
+      swapBodyText();
       pages.forEach((page) => updateCallouts(page));
     });
   });

@@ -2,12 +2,17 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "@fontsource/jersey-15";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/800.css";
 import "./style.css";
 
 const DEBUG_KEEP_SCROLL = false; // set to false for production (resets to top on reload)
+const DEBUG_SKIP_PASSWORD = false; // set to true to bypass password screen
 if (!DEBUG_KEEP_SCROLL) {
   history.scrollRestoration = "manual";
   window.scrollTo(0, 0);
+} else {
+  history.scrollRestoration = "auto";
 }
 
 import { buildTitle } from "./voronoi-title.js";
@@ -20,14 +25,15 @@ import { initCmyCursor } from "./cmy-cursor.js";
 import { initShapeBuilder } from "./shape-builder.js";
 import { initPageTracking } from "./stats.js";
 import { initAIPage } from "./ai-page.js";
+import { initFinPage } from "./fin-page.js";
 gsap.registerPlugin(ScrollTrigger);
 
 // ── Enter gate ──────────────────────────────────────────────────────────────
-document.documentElement.classList.add("no-scroll");
+if (!DEBUG_SKIP_PASSWORD) document.documentElement.classList.add("no-scroll");
 
 // ── Lenis ────────────────────────────────────────────────────────────────────
 const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
-lenis.stop();
+if (!DEBUG_SKIP_PASSWORD) lenis.stop();
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
@@ -37,7 +43,7 @@ lenis.on("scroll", () => {
 
 // ── Title page ───────────────────────────────────────────────────────────────
 let startTitle = null;
-buildTitle(lenis)
+const titleReady = buildTitle(lenis)
   .then(({ start }) => {
     startTitle = start;
   })
@@ -72,6 +78,8 @@ initShapeBuilder();
 initPageTracking();
 initAIPage();
 
+initFinPage();
+
 // ── Enter gate handler ──────────────────────────────────────────────────────
 {
   const PASSWORD = "hyperquake";
@@ -79,32 +87,42 @@ initAIPage();
   const form = document.getElementById("enter-form");
   const input = document.getElementById("enter-password");
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (input.value.toLowerCase().trim() === PASSWORD) {
-      // Unlock scrolling
-      document.documentElement.classList.remove("no-scroll");
-      lenis.start();
-      // Fade out overlay, then remove
-      overlay.classList.add("fade-out");
-      let started = false;
-      overlay.addEventListener("transitionend", function handler(e) {
-        if (e.target !== overlay || e.propertyName !== "opacity") return;
-        overlay.removeEventListener("transitionend", handler);
-        overlay.remove();
-        if (startTitle && !started) {
-          started = true;
-          startTitle();
-        }
-      });
-    } else {
-      // Shake on wrong password
-      form.classList.remove("shake");
-      void form.offsetWidth; // reflow to restart animation
-      form.classList.add("shake");
-      input.value = "";
-    }
-  });
+  function unlock() {
+    document.documentElement.classList.remove("no-scroll");
+    lenis.start();
+    overlay.classList.add("fade-out");
+    let started = false;
+    overlay.addEventListener("transitionend", function handler(e) {
+      if (e.target !== overlay || e.propertyName !== "opacity") return;
+      overlay.removeEventListener("transitionend", handler);
+      overlay.remove();
+      if (startTitle && !started) {
+        started = true;
+        startTitle();
+      }
+    });
+  }
+
+  if (DEBUG_SKIP_PASSWORD) {
+    overlay.remove();
+    document.documentElement.classList.remove("no-scroll");
+    titleReady.then(() => {
+      if (startTitle) startTitle();
+    });
+  } else {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (input.value.toLowerCase().trim() === PASSWORD) {
+        unlock();
+      } else {
+        // Shake on wrong password
+        form.classList.remove("shake");
+        void form.offsetWidth; // reflow to restart animation
+        form.classList.add("shake");
+        input.value = "";
+      }
+    });
+  }
 }
 
 // ── Auto-hide cursor ────────────────────────────────────────────────────────

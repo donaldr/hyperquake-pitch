@@ -120,6 +120,81 @@ html.no-scroll {
   border-bottom: 1px solid #bbb;
 }
 
+.fin-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: none;
+}
+.fin-mask {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(8rem, 20vw, 20rem);
+  font-weight: normal;
+  --cap-ratio: 0.7; /* tweak: cap-height as fraction of font-size */
+  --baseline: 0.8; /* tweak: baseline position as fraction of font-size */
+  overflow: visible;
+  line-height: 1;
+  padding: 0 20% clamp(3rem, 8vw, 8rem);
+  top: calc(var(--cap-ratio) * -0.25em);
+  left: calc(var(--cap-ratio) * 0.25em);
+  position: relative;
+}
+.fin-text-clip {
+  height: calc(var(--cap-ratio) * clamp(8rem, 20vw, 20rem));
+  clip-path: inset(-999px -999px 0 -999px);
+}
+.fin-mirror-clip {
+  height: 0;
+  clip-path: inset(0 -999px -999px -999px);
+}
+.fin-mirror {
+  --mirror-rise: 100%;
+  transform: translateY(var(--mirror-rise)) scaleY(-1);
+  transform-origin: center top;
+  color: #fff;
+  opacity: 0.3;
+  -webkit-mask-image: linear-gradient(to top, white, transparent);
+  mask-image: linear-gradient(to top, white, transparent);
+  pointer-events: none;
+}
+.fin-reflection-clip {
+  clip-path: inset(0 -100% -100% -100%);
+}
+.fin-wrap {
+  position: relative;
+}
+.fin-text,
+.fin-mirror,
+.fin-reflection {
+  letter-spacing: 0em;
+  line-height: 1;
+  height: calc(var(--cap-ratio) * 1em);
+  overflow: visible;
+}
+.fin-text {
+  font-size: inherit;
+  font-weight: inherit;
+  color: #fff;
+}
+.fin-inner {
+  display: block;
+  transform: translateY(calc((var(--baseline) - var(--cap-ratio)) * -1em));
+}
+.fin-reflection {
+  position: relative;
+  --skew: 0deg;
+  --rise: 100%;
+  transform: perspective(500px) rotateX(-80deg) skewX(var(--skew))
+    translateY(var(--rise));
+  transform-origin: center bottom;
+  color: rgba(0, 0, 0, 0.1);
+  filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to top, white, transparent);
+  mask-image: linear-gradient(to top, white, transparent);
+  pointer-events: none;
+  top: calc(var(--cap-ratio) * 1em);
+}
+
 /* Title page */
 #title-page {
   display: flex;
@@ -360,10 +435,14 @@ html.no-scroll {
 }
 
 .tp-body {
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: clamp(0.7rem, 1.1vw, 0.9rem);
   line-height: 1.7;
   color: #666;
+}
+.tp-body b {
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .tp-body-line {
@@ -394,7 +473,7 @@ html.no-scroll {
 /* Page 02 — Icon morph + radial paragraphs */
 .morph-icon-wrap {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 30vh;
@@ -623,7 +702,7 @@ html.no-scroll {
   left: calc((72% - 15vh) / 2);
   width: 30%;
   transform: translateX(-50%) translateY(-50%);
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: clamp(1rem, 1.6vw, 1.4rem);
   line-height: 1.8;
 }
@@ -639,6 +718,10 @@ html.no-scroll {
   display: inline;
   color: #ccc;
   transition: none;
+}
+.highlight-para b {
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .shape-builder-wrap {

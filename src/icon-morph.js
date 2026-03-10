@@ -62,7 +62,10 @@ export function initIconMorph() {
   function onAllLoaded() {
     currentIndex = 0;
     startCycle();
-    setupScrollTrigger();
+    document.fonts.ready.then(() => {
+      positionRadialParas();
+      setupScrollTrigger();
+    });
   }
 
   let currentIndex = 0;
@@ -151,35 +154,42 @@ export function initIconMorph() {
     const numRect = numStack.getBoundingClientRect();
 
     // Page-relative percentages
-    const iconCx = ((iconRect.left + iconRect.width / 2 - pageRect.left) / pageRect.width) * 100;
-    const iconCy = ((iconRect.top + iconRect.height / 2 - pageRect.top) / pageRect.height) * 100;
+    const iconCx =
+      ((iconRect.left + iconRect.width / 2 - pageRect.left) / pageRect.width) *
+      100;
+    const iconCy =
+      ((iconRect.top + iconRect.height / 2 - pageRect.top) / pageRect.height) *
+      100;
 
     // Right column (paras 2 & 3): 60% of the way from icon to right edge
     const rightX = iconCx + (100 - iconCx) * 0.6;
     // Vertical range: top of page → top of heading
-    const headingTopPct = ((headingRect.top - pageRect.top) / pageRect.height) * 100;
+    const headingTopPct =
+      ((headingRect.top - pageRect.top) / pageRect.height) * 100;
     const rightY1 = headingTopPct / 3;
     const rightY2 = (headingTopPct * 2) / 3;
 
     // Left column (paras 4 & 5): 60% of the way from icon to left edge
     const leftX = iconCx * 0.4;
     // Vertical range: bottom of num-stack → bottom of page
-    const numBottomPct = ((numRect.bottom - pageRect.top) / pageRect.height) * 100;
+    const numBottomPct =
+      ((numRect.bottom - pageRect.top) / pageRect.height) * 100;
     const leftRange = 100 - numBottomPct;
-    const leftY1 = numBottomPct + leftRange / 3;
+    const leftY1 = numBottomPct + leftRange / 4;
     const leftY2 = numBottomPct + (leftRange * 2) / 3;
 
     // Para 1: 60% of the way from icon to top, horizontally between num-stack right and right column
     const topY = iconCy * 0.4;
-    const numRightPct = ((numRect.right - pageRect.left) / pageRect.width) * 100;
+    const numRightPct =
+      ((numRect.right - pageRect.left) / pageRect.width) * 100;
     const topX = (numRightPct + rightX) / 2;
 
     const positions = [
-      [topX, topY],      // Para 1: top center
+      [topX, topY], // Para 1: top center
       [rightX, rightY1], // Para 2: right upper
       [rightX, rightY2], // Para 3: right lower
-      [leftX, leftY1],   // Para 4: left upper
-      [leftX, leftY2],   // Para 5: left lower
+      [leftX, leftY1], // Para 4: left upper
+      [leftX, leftY2], // Para 5: left lower
     ];
 
     radialParas.forEach((rp, i) => {
@@ -220,7 +230,10 @@ export function initIconMorph() {
   });
 
   // Callout lines
-  const calloutSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  const calloutSvg = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg",
+  );
   calloutSvg.classList.add("callout-svg");
   page.appendChild(calloutSvg);
 
@@ -264,7 +277,7 @@ export function initIconMorph() {
       const tx = nx !== 0 ? hw / Math.abs(nx) : Infinity;
       const ty = ny !== 0 ? hh / Math.abs(ny) : Infinity;
       const t = Math.min(tx, ty);
-      const gap = (i === 1 || i === 2) ? 20 : 8;
+      const gap = i === 1 || i === 2 ? 20 : 8;
       sx = pcx + nx * (t + gap);
       sy = pcy + ny * (t + gap);
 
@@ -273,7 +286,10 @@ export function initIconMorph() {
       const ex = icx - nx * iconR;
       const ey = icy - ny * iconR;
 
-      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      const line = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line",
+      );
       line.setAttribute("x1", sx);
       line.setAttribute("y1", sy);
       line.setAttribute("x2", ex);
@@ -281,7 +297,10 @@ export function initIconMorph() {
       line.classList.add("callout-line");
       calloutSvg.appendChild(line);
 
-      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      const dot = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "circle",
+      );
       dot.setAttribute("cx", ex);
       dot.setAttribute("cy", ey);
       dot.setAttribute("r", 3);
@@ -305,7 +324,11 @@ export function initIconMorph() {
       if (i !== idx) {
         gsap.killTweensOf(cd.line);
         gsap.killTweensOf(cd.dot);
-        gsap.to(cd.line, { strokeDashoffset: cd.length, duration: 0.3, ease: "power2.in" });
+        gsap.to(cd.line, {
+          strokeDashoffset: cd.length,
+          duration: 0.3,
+          ease: "power2.in",
+        });
         gsap.to(cd.dot, { autoAlpha: 0, duration: 0.2 });
       }
     });
@@ -322,11 +345,14 @@ export function initIconMorph() {
       const cur = calloutData[idx];
       gsap.killTweensOf(cur.line);
       gsap.killTweensOf(cur.dot);
-      gsap.to(cur.line, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" });
+      gsap.to(cur.line, {
+        strokeDashoffset: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
       gsap.to(cur.dot, { autoAlpha: 1, duration: 0.3, delay: 0.3 });
     }
   }
-
 
   function setupScrollTrigger() {
     // Build callouts after DOM is ready
@@ -336,7 +362,13 @@ export function initIconMorph() {
     updateCalloutHighlight(0);
 
     let hasScrolled = false;
-    window.addEventListener("scroll", () => { hasScrolled = true; }, { once: true });
+    window.addEventListener(
+      "scroll",
+      () => {
+        hasScrolled = true;
+      },
+      { once: true },
+    );
 
     ScrollTrigger.create({
       trigger: page,
@@ -363,12 +395,17 @@ export function initIconMorph() {
     });
   }
 
-  // Rebuild callouts on resize
+  // Rebuild callouts on resize (double-rAF to run after text swap in titled-paragraph.js)
   window.addEventListener("resize", () => {
-    buildCallouts();
-    if (activeCallout >= 0) {
-      updateCalloutHighlight(activeCallout);
-    }
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        positionRadialParas();
+        buildCallouts();
+        if (activeCallout >= 0) {
+          updateCalloutHighlight(activeCallout);
+        }
+      });
+    });
   });
 
   // Mousedown blob — blur the current icon element so the parent threshold creates a blob

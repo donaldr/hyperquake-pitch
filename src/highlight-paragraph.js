@@ -9,25 +9,41 @@ export function initHighlightParagraphs() {
     const page = para.closest(".page");
     if (!page) return;
 
-    // Split text into word spans
-    const text = para.textContent.trim();
-    para.textContent = "";
+    // Split into word spans, preserving inline formatting (e.g. <b>)
+    const walker = document.createTreeWalker(para, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
 
-    const words = text.split(/\s+/);
-    const wordEls = words.map((word, i) => {
-      const span = document.createElement("span");
-      span.className = "hp-word";
-      span.textContent = word;
-      para.appendChild(span);
-      if (i < words.length - 1) para.appendChild(document.createTextNode(" "));
-      return span;
+    const wordEls = [];
+    textNodes.forEach((node) => {
+      const parent = node.parentNode;
+      const isBold = parent.closest && parent.closest("b, strong");
+      const parts = node.textContent.split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      parts.forEach((part) => {
+        if (/^\s+$/.test(part)) {
+          frag.appendChild(document.createTextNode(" "));
+        } else if (part) {
+          const span = document.createElement("span");
+          span.className = "hp-word";
+          if (isBold) span.style.fontWeight = "800";
+          span.textContent = part;
+          wordEls.push(span);
+          frag.appendChild(span);
+        }
+      });
+      parent.replaceChild(frag, node);
+    });
+    // Bold wrappers now contain hp-word spans; keep them for nowrap
+    para.querySelectorAll("b, strong").forEach((el) => {
+      el.style.whiteSpace = "nowrap";
     });
 
     // Scrub-driven highlight: scroll down reveals, scroll up unreveals
     ScrollTrigger.create({
       trigger: page,
-      start: "top 40%",
-      end: "top -10%",
+      start: "top 60%",
+      end: "top 10%",
       scrub: 0.3,
       animation: gsap.timeline().fromTo(
         wordEls,

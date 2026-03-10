@@ -56,7 +56,20 @@ export function initCmyCursor() {
   let mouseY = window.innerHeight / 2;
   let cursorVisible = false;
   let overPointer = false;
+  let overFadeZone = false;
   let hideTimer = null;
+
+  // Fade CMY cursor over elements with .cmy-fade class
+  document.querySelectorAll(".cmy-fade").forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      overFadeZone = true;
+      dots.forEach((dot) => (dot.style.opacity = "0.1"));
+    });
+    el.addEventListener("mouseleave", () => {
+      overFadeZone = false;
+      if (cursorVisible) dots.forEach((dot) => (dot.style.opacity = "1"));
+    });
+  });
   const dotX = dots.map(() => mouseX);
   const dotY = dots.map(() => mouseY);
   const half = CURSOR_SIZE / 2;
@@ -66,6 +79,18 @@ export function initCmyCursor() {
       if (cursorVisible) {
         cursorVisible = false;
         dots.forEach((dot) => (dot.style.opacity = "0"));
+      }
+      return;
+    }
+    if (overFadeZone) {
+      cursorVisible = true;
+      dots.forEach((dot) => (dot.style.opacity = "0.1"));
+      clearTimeout(hideTimer);
+      if (!isMouseDown) {
+        hideTimer = setTimeout(() => {
+          cursorVisible = false;
+          dots.forEach((dot) => (dot.style.opacity = "0"));
+        }, 2000);
       }
       return;
     }

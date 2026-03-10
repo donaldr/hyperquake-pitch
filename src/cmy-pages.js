@@ -103,7 +103,7 @@ export function initCmyPages(lenis) {
     });
   }
 
-  document.querySelectorAll(".page:not(#title-page)").forEach((page) => {
+  document.querySelectorAll(".page:not(#title-page):not(.fin-page)").forEach((page) => {
     const groups = getCharsByIndex(page);
     gsap.set(groups.flat(), { x: CHAR_OFFSET, autoAlpha: 0 });
 
@@ -120,7 +120,7 @@ export function initCmyPages(lenis) {
 
   gsap.delayedCall(0.3, () => {
     const firstGroups = getCharsByIndex(
-      document.querySelector(".page:not(#title-page)"),
+      document.querySelector(".page:not(#title-page):not(.fin-page)"),
     );
     animateIn(firstGroups);
   });
@@ -154,7 +154,7 @@ export function initCmyPages(lenis) {
     });
   }
 
-  const cmyPages = document.querySelectorAll(".page:not(#title-page)");
+  const cmyPages = document.querySelectorAll(".page:not(#title-page):not(.fin-page)");
   cmyPages.forEach((page) => {
     const mask = page.querySelector(".heading-mask");
     if (mask) buildHeadingStack(mask);
@@ -345,7 +345,7 @@ export function initCmyPages(lenis) {
   }
 
   // Parallax
-  document.querySelectorAll(".page:not(#title-page)").forEach((page) => {
+  document.querySelectorAll(".page:not(#title-page):not(.fin-page)").forEach((page) => {
     gsap.fromTo(
       page.querySelector(".num-stack"),
       { y: "4%" },

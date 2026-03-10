@@ -3,7 +3,7 @@ import { initSpriteCharacter } from "./sprite-character.js";
 import { isMuted, setMuted } from "./audio-state.js";
 
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
-const GROQ_MODEL = "meta-llama/llama-4-maverick-17b-128e-instruct";
+const GROQ_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
 const DEBUG_MODE = false; // set to false to enable real API calls
 
 // ── Speech blip sounds ──
@@ -74,7 +74,7 @@ The pitch deck has these pages:
 - Page 2: "Reusable Modules": Paragraphs of text with associated animations
 - Page 3: "Visualize First": A large eye that follows the cursor
 - Page 4: "The Work Pyramid": An interactive 3D pyramid builder
-- Page 5: "AI Intelligence": This page — where you are now
+- Page 5: "AI Integration": This page — where you are now
 
 Your behavior instructions will be provided in each user message as "DIRECTIVES". Follow every directive closely. In addition:
 - Your tone is warm, friendly, and a little playful — like a colleague who's genuinely impressed by creative work and enjoys showing people around
@@ -673,7 +673,7 @@ export function initAIPage() {
         </ul>
       </div>
       <div class="ai-stats-section">
-        <h3>05 — AI Intelligence</h3>
+        <h3>05 — AI Integration</h3>
         <ul>
           <li>Words: ${wordCounts.page05} (~${calcReadTime(wordCounts.page05)}s to read)</li>
           <li>Time on page: ${fmt(stats.page05.timeOnPage)}s</li>
@@ -759,7 +759,7 @@ export function initAIPage() {
         </ul>
       </div>
       <div class="ai-stats-section ai-delta">
-        <h3>05 — AI Intelligence</h3>
+        <h3>05 — AI Integration</h3>
         <ul>
           <li>Time on page: ${dfmt(lastDelta.page05.timeOnPage)}s</li>
         </ul>
