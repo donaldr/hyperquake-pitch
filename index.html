@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" class="hide-cursor">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html {
+        scrollbar-width: none;
+      }
+      html::-webkit-scrollbar {
+        display: none;
+      }
+      html.hide-cursor,
+      html.hide-cursor * {
+        cursor:
+          url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QAAAAAAAD5Q7t/AAAADUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJRU5ErkJggg==")
+            0 0,
+          none !important;
+      }
+      #enter-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #enter-form {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      #enter-password {
+        box-sizing: border-box;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+        color: #fff;
+        background: none;
+        border: none;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+        padding: 9px 13px;
+        text-align: center;
+        outline: none;
+        width: 280px;
+      }
+      #enter-password::placeholder {
+        color: rgba(255,255,255,0.3);
+      }
+      #enter-btn {
+        color: rgba(255,255,255,0.3);
+        background: none;
+        border: none;
+        padding: 0.3em;
+        display: flex;
+        align-items: center;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMY Pages</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=block"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="enter-overlay">
+      <form id="enter-form">
+        <input id="enter-password" type="password" placeholder="Password" autocomplete="off" />
+        <button id="enter-btn" type="submit" aria-label="Enter">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <div class="page" id="title-page">
+      <div id="svg-wrap">
+        <span id="loading">Loading...</span>
+        <svg
+          id="title-svg"
+          viewBox="0 0 860 420"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g id="fragments"></g>
+        </svg>
+      </div>
+      <div id="scroll-hint" class="scroll-hint">
+        <span>Scroll down</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3v10M3 8l5 5 5-5"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="page" id="page-01">
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <clipPath id="circle-clip" clipPathUnits="objectBoundingBox">
+            <path d="M0.5,0 A0.5,0.5 0 0,0 0.5,1 Z" />
+            <path class="right-clip" d="M0.5,0 A0.5,0.5 0 0,1 0.5,1 Z" />
+          </clipPath>
+          <clipPath id="left-half-clip" clipPathUnits="objectBoundingBox">
+            <path d="M0.5,0 A0.5,0.5 0 0,0 0.5,1 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+      <div class="concentric-circles">
+        <div class="ring ring-outer"></div>
+        <div class="ring ring-middle"></div>
+        <div class="ring ring-inner"></div>
+      </div>
+      <div class="split-circle"></div>
+      <div class="concentric-left">
+        <div class="ring ring-outer"></div>
+        <div class="ring ring-middle"></div>
+        <div class="ring ring-inner"></div>
+      </div>
+      <div class="titled-paras">
+        <div class="titled-para">
+          <h3 class="tp-title">Core Team</h3>
+          <p class="tp-body">
+            A small inner circle of senior leaders who set the vision and make
+            key decisions across the organization. They define the culture,
+            establish priorities, and ensure alignment at every level of the
+            business.
+          </p>
+        </div>
+        <div class="titled-para">
+          <h3 class="tp-title">Extended Team</h3>
+          <p class="tp-body">
+            Specialists and department leads who translate strategy into
+            execution across every discipline. From engineering to design to
+            operations, this ring turns abstract goals into concrete
+            deliverables with precision and accountability.
+          </p>
+        </div>
+        <div class="titled-para">
+          <h3 class="tp-title">Full Organization</h3>
+          <p class="tp-body">
+            The complete team working in concert, each ring reinforcing the next
+            to deliver at scale. When every layer is aligned, the organization
+            moves as one — fast, focused, and resilient under pressure.
+          </p>
+        </div>
+      </div>
+      <div class="num-stack"></div>
+      <div class="heading-mask">
+        <h2 class="page-heading">Concentric Teams</h2>
+      </div>
+      <span class="page-label">01</span>
+    </div>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <filter id="morph-threshold">
+          <feColorMatrix
+            in="SourceGraphic"
+            type="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 255 -140"
+          />
+        </filter>
+      </defs>
+    </svg>
+
+    <div class="page" id="page-02">
+      <div class="morph-icon-wrap">
+        <div class="morph-icon-container">
+          <div class="morph-icon" id="morph-icon-a"></div>
+          <div class="morph-icon" id="morph-icon-b"></div>
+        </div>
+      </div>
+      <div class="radial-para mouseover" data-index="0" style="--angle: 0">
+        <div class="titled-para">
+          <h3 class="tp-title">Strategy First</h3>
+          <p class="tp-body">
+            Every project begins with a clear strategic foundation. We align
+            business goals with creative direction before a single pixel is
+            placed.
+          </p>
+        </div>
+      </div>
+      <div class="radial-para mouseover" data-index="1" style="--angle: 1">
+        <div class="titled-para">
+          <h3 class="tp-title">Design Systems</h3>
+          <p class="tp-body">
+            Scalable component libraries and design tokens ensure consistency
+            across every touchpoint, from mobile to desktop to print.
+          </p>
+        </div>
+      </div>
+      <div class="radial-para mouseover" data-index="2" style="--angle: 2">
+        <div class="titled-para">
+          <h3 class="tp-title">Motion &amp; Interaction</h3>
+          <p class="tp-body">
+            Purposeful animation brings interfaces to life. Micro-interactions
+            guide users while reinforcing brand personality at every step.
+          </p>
+        </div>
+      </div>
+      <div class="radial-para mouseover" data-index="3" style="--angle: 3">
+        <div class="titled-para">
+          <h3 class="tp-title">Rapid Prototyping</h3>
+          <p class="tp-body">
+            Working prototypes in days, not weeks. We test ideas in the browser
+            early so feedback loops stay tight and decisions stay informed.
+          </p>
+        </div>
+      </div>
+      <div class="radial-para mouseover" data-index="4" style="--angle: 4">
+        <div class="titled-para">
+          <h3 class="tp-title">Technical Craft</h3>
+          <p class="tp-body">
+            Performance, accessibility, and clean architecture are
+            non-negotiable. We build for the long term without sacrificing speed
+            to market.
+          </p>
+        </div>
+      </div>
+      <div class="num-stack"></div>
+      <div class="heading-mask">
+        <h2 class="page-heading">Reusable Modules</h2>
+      </div>
+      <span class="page-label">02</span>
+    </div>
+    <div class="page" id="page-03">
+      <div class="eye-wrap">
+        <div class="eye-container"></div>
+      </div>
+      <div class="highlight-para">
+        We don't start with wireframes. We start with vision. Every project
+        begins as a living, breathing concept — motion, color, and interaction
+        woven together before a single line of production code is written.
+      </div>
+      <div class="num-stack"></div>
+      <div class="heading-mask">
+        <h2 class="page-heading">Visualize First</h2>
+      </div>
+      <span class="page-label">03</span>
+    </div>
+    <div class="page" id="page-04">
+      <div class="shape-builder-wrap"></div>
+      <div class="highlight-para highlight-para-right">
+        Every piece fits. We bring together strategy, design, and engineering
+        into a single cohesive process — each discipline strengthening the
+        others, building toward something greater than the sum of its parts.
+      </div>
+      <div class="num-stack"></div>
+      <div class="heading-mask">
+        <h2 class="page-heading">The Work Pyramid</h2>
+      </div>
+      <span class="page-label">04</span>
+    </div>
+    <div class="page" id="page-05">
+      <div class="highlight-para highlight-para-right">
+        We don't just use AI — we build with it. From intelligent content
+        generation to real-time conversational interfaces, we integrate AI
+        as a core creative partner, not an afterthought. The result is
+        experiences that feel alive, adaptive, and deeply personal.
+      </div>
+      <div class="num-stack"></div>
+      <div class="heading-mask">
+        <h2 class="page-heading">AI Intelligence</h2>
+      </div>
+      <span class="page-label">05</span>
+    </div>
+
+    <script>document.fonts.load('1.4rem "Bebas Neue"').then(function(){document.getElementById('enter-form').style.opacity='1';})</script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
